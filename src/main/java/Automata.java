@@ -1,5 +1,3 @@
-package javatemp;
-
 /**
  * Created with IntelliJ IDEA.
  * User: Konstantin

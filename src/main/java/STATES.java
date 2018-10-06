@@ -1,4 +1,3 @@
-package javatemp;
 
 public enum STATES {
     OFF,

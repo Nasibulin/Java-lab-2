@@ -1,5 +1,3 @@
-package javatemp;
-
 import java.util.Arrays;
 
 public class AutomataDemo {
