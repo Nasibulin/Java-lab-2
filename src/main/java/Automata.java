@@ -7,20 +7,21 @@
  */
 public class Automata {
     private int cash;
+    private int payment;
     private int moneyback;
-    private int[] prices;
     private int choice;
+    private int[] prices;
     private String[] menu;
     private STATES state = STATES.OFF;
     private final String TOO_LITTLE_MONEY = "Too little money for your choice...";
+    private final String ENJOY = "Enjoy your drink...";
 
     public Automata(String[] menu, int[] prices) {
-        this.cash = 0;
         this.menu = menu;
         this.prices = prices;
     }
 
-    public void on() {
+    public STATES on() {
         switch (state) {
             case OFF:
                 state = STATES.WAIT;
@@ -35,9 +36,10 @@ public class Automata {
                 break;
         }
 
+        return state;
     }
 
-    public void off() {
+    public STATES off() {
         switch (state) {
             case OFF:
                 break;
@@ -51,37 +53,41 @@ public class Automata {
             case COOK:
                 break;
         }
+        return state;
     }
 
-    public void coin(int cash) {
+    public int coin(int payment) {
         switch (state) {
             case OFF:
                 break;
             case WAIT:
-                this.cash += cash;
+                this.payment += payment;
+                cash += payment;
                 state = STATES.ACCEPT;
                 break;
             case ACCEPT:
-                this.cash += cash;
+                this.payment += payment;
+                cash += payment;
                 break;
             case CHECK:
                 break;
             case COOK:
                 break;
         }
+        return payment;
     }
 
     public String[][] printMenu() {
         String[][] menu = new String[this.menu.length][2];
-        for (int i = 0; i < this.menu.length; i++) {
+        for (int i = 0; i < menu.length; i++) {
             menu[i][0] = this.menu[i];
-            menu[i][1] = String.valueOf(this.prices[i]);
+            menu[i][1] = String.valueOf(prices[i]);
         }
         return menu;
     }
 
-    public String printState() {
-        return (this.state.equals(STATES.OFF)) ? "..." : String.valueOf(this.state) + ". You have " + cash + " rubles on your account.";
+    public STATES printState() {
+        return state;
     }
 
     public String choice(int choice) {
@@ -107,7 +113,7 @@ public class Automata {
     }
 
     public boolean check() {
-        return (cash >= prices[choice]);
+        return (payment >= prices[choice]);
     }
 
     public int cancel() {
@@ -118,13 +124,15 @@ public class Automata {
                 break;
             case ACCEPT:
                 state = STATES.WAIT;
-                moneyback = cash;
-                cash = 0;
+                moneyback = payment;
+                cash -= payment;
+                payment = 0;
                 break;
             case CHECK:
                 state = STATES.WAIT;
-                moneyback = cash;
-                cash = 0;
+                moneyback = payment;
+                cash -= payment;
+                payment = 0;
                 break;
             case COOK:
                 break;
@@ -132,7 +140,12 @@ public class Automata {
         return moneyback;
     }
 
-    public void cook() {
+    public int getCash() {
+        return cash;
+    }
+
+    public String cook() {
+        String result = TOO_LITTLE_MONEY;
         switch (state) {
             case OFF:
                 break;
@@ -142,13 +155,16 @@ public class Automata {
                 break;
             case CHECK:
                 state = STATES.COOK;
+                result = ENJOY;
                 break;
             case COOK:
                 break;
         }
+        return result;
     }
 
-    public void finish() {
+    public int finish() {
+        int result = -1;
         switch (state) {
             case OFF:
                 break;
@@ -160,9 +176,12 @@ public class Automata {
                 break;
             case COOK:
                 state = STATES.WAIT;
+                cash += prices[choice] - payment;
+                result = payment - prices[choice];
+                payment = 0;
                 break;
         }
-
+        return result;
     }
 
 
