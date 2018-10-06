@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Konstantin
@@ -10,7 +12,7 @@ import org.junit.Test;
 public class AutomataTest {
     @Test
     public void testOn() throws Exception {
-
+    assertEquals("dgfgf",)
     }
 
     @Test
