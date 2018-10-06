@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class AutomataTest {
     @Test
     public void testOn() throws Exception {
-    assertEquals("dgfgf",)
+
     }
 
     @Test
