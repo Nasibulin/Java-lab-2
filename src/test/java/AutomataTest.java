@@ -11,7 +11,7 @@ public class AutomataTest {
     static Automata a = new Automata(new String[]{"Coca-cola", "Tea", "Coffee"}, new int[]{12, 10, 15});
 
     @Test
-    public void test01() throws Exception {
+         public void test01() throws Exception {
         assertEquals(STATES.OFF, a.printState());
     }
     @Test
